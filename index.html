@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "field.js": "scripts/field.js",
+          "figure.js": "scripts/figure.js",
+          "collisionsDetector.js": "scripts/collisionsDetector.js",
+          "game.js": "scripts/game.js"
+        }
+      }
+    </script>
+
+    <title>Тетрис</title>
+  </head>
+  <body>
+    <main>
+      <h1>Добро пожаловать в игру!!!</h1>
+
+      <div class="gameContainer">
+        <div id="mainContainer" class="canvases">
+          <canvas id="static" class="canvas" width="150" height="300"></canvas>
+          <canvas id="field" class="canvas" width="150" height="300"></canvas>
+          <canvas id="game" class="canvas" width="150" height="300"></canvas>
+
+          <div id="gameIsFinished" class="message hidden">Конец игры</div>
+          <div id="gameIsPaused" class="message hidden">Пауза</div>
+        </div>
+
+        <div class="additionalInfo">
+          <div class="score">Счет: <span id="score">0</span></div>
+          <div class="velocity">Уровень: <span id="velocity">1</span></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="buttonStart">Старт</button>
+        <button id="buttonPause">Пауза</button>
+        <button id="buttonStop">Стоп</button>
+      </div>
+    </main>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
