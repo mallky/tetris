@@ -1,4 +1,4 @@
-export const PIXEL = 25;
+export const PIXEL = 30;
 export const GRID_PIXEL = PIXEL + 2;
 export const WIDTH_MULTIPLICATOR = 10;
 export const HEIGHT_MULTIPLICATOR = 20;
@@ -9,6 +9,8 @@ export const EMPTY_FIELD = Array(HEIGHT_MULTIPLICATOR).fill(EMPTY_ROW);
 export const LAST_AVAILABLE_POINTS = Array(WIDTH_MULTIPLICATOR).fill(
   HEIGHT_MULTIPLICATOR - 1
 );
+
+export const INIT_VELOCITY = 0.25;
 
 export const FIGURES = {
   l: [[1], [1], [1], [1]],

@@ -11,7 +11,7 @@ class App {
   constructor() {
     this.buttonStart = document.getElementById("buttonStart");
     this.buttonPause = document.getElementById("buttonPause");
-    this.buttonStop = document.getElementById("buttonStop");
+    this.buttonReset = document.getElementById("buttonReset");
     this.mainContainer = document.getElementById("mainContainer");
     this.fieldCanvas = document.getElementById("field");
     this.gameCanvas = document.getElementById("game");
@@ -19,7 +19,7 @@ class App {
     this.gameIsFinished = document.getElementById("gameIsFinished");
     this.gameIsPaused = document.getElementById("gameIsPaused");
     this.scoreBlock = document.getElementById("score");
-    this.velocityBlock = document.getElementById("velocity");
+    this.levelBlock = document.getElementById("level");
 
     // @ts-ignore
     this.fieldCtx = this.fieldCanvas?.getContext("2d");
@@ -57,11 +57,12 @@ class App {
   init() {
     this.#setFieldSizes();
     this.buttonStart?.addEventListener("click", this.startGameFn);
-    this.buttonStop?.addEventListener("click", () => this.stopGame());
+    this.buttonReset?.addEventListener("click", () => this.resetGame());
     this.buttonPause?.addEventListener("click", () => this.pauseGame());
 
     field.init(this.fieldCtx);
     grid.init(this.staticCtx);
+    game.init(this.gameCtx);
   }
 
   startGame() {
@@ -69,8 +70,6 @@ class App {
 
     document?.addEventListener("keydown", this.handleKeydownEventFn);
     document?.addEventListener("keyup", this.handleKeyupEventFn);
-
-    game.init(this.gameCtx);
 
     this.mainThread();
   }
@@ -101,8 +100,8 @@ class App {
     if (this.scoreBlock) {
       this.scoreBlock.innerHTML = `${game.score}`;
     }
-    if (this.velocityBlock) {
-      this.velocityBlock.innerHTML = `${game.velocity}`;
+    if (this.levelBlock) {
+      this.levelBlock.innerHTML = `${game.level}`;
     }
   }
 
@@ -121,6 +120,17 @@ class App {
   stopGame() {
     if (this.loopRef) {
       cancelAnimationFrame(this.loopRef);
+    }
+  }
+
+  resetGame() {
+    game.reset();
+
+    this.stopGame();
+    this.mainThread();
+
+    if (this.gameIsFinished) {
+      this.gameIsFinished.classList.add("hidden");
     }
   }
 

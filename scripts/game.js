@@ -1,6 +1,7 @@
 import {
   GRID_PIXEL,
   HEIGHT_MULTIPLICATOR,
+  INIT_VELOCITY,
   PIXEL,
   WIDTH_MULTIPLICATOR,
 } from "./constants.js";
@@ -20,8 +21,8 @@ class Game {
     this.y = -4 * GRID_PIXEL;
     this.ctx = {};
     this.fOffset = GRID_PIXEL - PIXEL;
-    this.forceDownMultiplicator = 1;
-    this.velocity = 1;
+    this.forceDownMultiplicator = 0;
+    this.velocity = INIT_VELOCITY;
   }
 
   init(ctx) {
@@ -37,21 +38,11 @@ class Game {
     this.#score += score;
   }
 
-  #maxAvailableYCoords() {
-    return field.lastAvailablePoints();
-  }
-
   get yCoord() {
     return Math.floor(this.y / GRID_PIXEL);
   }
 
   tick() {
-    const maxAvailableYCoords = this.#maxAvailableYCoords();
-
-    if (maxAvailableYCoords.some((item) => item < 0)) {
-      return "finish";
-    }
-
     this.ctx.clearRect(
       0,
       0,
@@ -72,7 +63,7 @@ class Game {
         yCoord: this.yCoord,
       })
     ) {
-      this.y += this.velocity * this.forceDownMultiplicator;
+      this.y += this.forceDownMultiplicator || this.velocity;
     } else {
       const yCoord = this.yCoord;
       this.y = yCoord * GRID_PIXEL;
@@ -96,7 +87,7 @@ class Game {
 
       this.y = -4 * GRID_PIXEL;
       this.xCoord = 4;
-      this.forceDownMultiplicator = 1;
+      this.forceDownMultiplicator = 0;
     }
   }
 
@@ -131,7 +122,7 @@ class Game {
   }
 
   forceDownFinish() {
-    this.forceDownMultiplicator = 1;
+    this.forceDownMultiplicator = 0;
   }
 
   changeFigure() {
@@ -154,9 +145,29 @@ class Game {
   }
 
   checkLevel() {
-    if ((this.score / 1000) % 8000 > 2 * this.velocity) {
-      this.velocity += 1;
+    if ((this.score / 1000) % 10 > 2 * this.velocity) {
+      this.velocity += INIT_VELOCITY;
     }
+  }
+
+  reset() {
+    this.velocity = INIT_VELOCITY;
+    this.xCoord = 4;
+    this.y = -4 * GRID_PIXEL;
+    this.#score = 0;
+
+    this.ctx.clearRect(
+      0,
+      0,
+      GRID_PIXEL * WIDTH_MULTIPLICATOR,
+      GRID_PIXEL * HEIGHT_MULTIPLICATOR
+    );
+
+    field.reset();
+  }
+
+  get level() {
+    return this.velocity * 4;
   }
 }
 

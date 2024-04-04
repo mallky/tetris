@@ -16,8 +16,8 @@ import {
  */
 
 class Field {
-  #fieldMap = EMPTY_FIELD;
-  #lastAvailablePoints = LAST_AVAILABLE_POINTS;
+  #fieldMap = [...EMPTY_FIELD];
+  #lastAvailablePoints = [...LAST_AVAILABLE_POINTS];
   #fOffset = GRID_PIXEL - PIXEL;
 
   constructor() {
@@ -118,18 +118,16 @@ class Field {
     return this.#fieldMap;
   }
 
-  lastAvailablePoints() {
-    return this.#fieldMap.reduce((acc, row, y) => {
-      row.forEach((item, index) => {
-        const currState = acc[index] ?? HEIGHT_MULTIPLICATOR - 1;
-        if (currState > y - 1 && item === 1) {
-          acc[index] = y - 1;
-        } else {
-          acc[index] = currState;
-        }
-      });
-      return acc;
-    }, []);
+  reset() {
+    this.#fieldMap = [...EMPTY_FIELD];
+    this.#lastAvailablePoints = [...LAST_AVAILABLE_POINTS];
+
+    this.ctx.clearRect(
+      0,
+      0,
+      GRID_PIXEL * WIDTH_MULTIPLICATOR,
+      GRID_PIXEL * HEIGHT_MULTIPLICATOR
+    );
   }
 }
 
