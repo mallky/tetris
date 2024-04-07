@@ -145,7 +145,7 @@ class Game {
   }
 
   checkLevel() {
-    if ((this.score / 1000) % 10 > 2 * this.velocity) {
+    if (this.score / 1000 > 8 * this.velocity) {
       this.velocity += INIT_VELOCITY;
     }
   }
